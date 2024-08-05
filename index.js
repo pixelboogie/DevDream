@@ -1,5 +1,6 @@
 import OpenAI from "openai"
 import { getCurrentWeather, getLocation, functions } from "./tools"
+import { renderNewMessage } from "./dom"
 
 // Something to stop the execution while developing
 const devMode = false;
@@ -18,24 +19,35 @@ const availableFunctions = {
     getLocation
 }
 
+const messages = [
+                { role: "system", content: "You are a helpful AI agent. Give highly specific answers based on the information you're provided. Prefer to gather information with the tools provided to you rather than giving basic, generic answers." },
+            ]
 
 async function agent(query){
-        const messages = [
-                { role: "system", content: "You are a helpful AI agent. Give highly specific answers based on the information you're provided. Prefer to gather information with the tools provided to you rather than giving basic, generic answers." },
-                { role: "user", content: query }
-            ]
+        
+            messages.push({ role: "user", content: query })
+            renderNewMessage(query, "user")
             
         const runner = openai.beta.chat.completions.runFunctions({
-            model: "gpt-3.5-turbo-1106",
+            model: "gpt-4-1106-preview",
             messages,
             functions
     }).on("message", (message) => console.log(message))
     
     const finalContent = await runner.finalContent()
-    console.log(finalContent)
+    messages.push({role: "system", content: finalContent})
+    renderNewMessage(finalContent, "assistant")
     
 }
 
-await agent("What is the current weather in my location?")
+document.getElementById("form").addEventListener("submit", async function (event) {
+    event.preventDefault()
+    const inputElement = document.getElementById("user-input")
+    inputElement.focus()
+    const formData = new FormData(event.target)
+    const query = formData.get("user-input")
+    event.target.reset()
+    await agent(query)
+})
 
 

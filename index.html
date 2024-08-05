@@ -1,11 +1,37 @@
 <!doctype html>
 <html>
-    <head>
-        <title></title>
-        <link rel="stylesheet" href="index.css">
-    </head>
-    <body>
-        <h1>Hello world</h1>
-        <script type="module" src="index.js"></script>
-    </body>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+	<main>
+		<!-- Conversation Bubbles -->
+        <section id="conversation" class="conversation-container">
+            <article class="ai-message">
+                <p>Hi there! How may I help you?</p>
+            </article>
+        </section>
+
+		<!-- Input Form -->
+		<form id="form" class="chatbot-input-container">
+			<input type="text" name="user-input" placeholder="Type message here..." id="user-input" required>
+			<button id="submit-btn" class="submit-btn">
+                <!-- <img 
+                    src="images/send-btn-icon.png" 
+                    class="send-btn-icon"
+                > -->
+            </button>
+		</form>
+
+
+	</main>
+	<script type="module" src="index.js"></script>
+</body>
+
 </html>

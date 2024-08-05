@@ -1,4 +1,108 @@
+* {
+    box-sizing: border-box;
+}
+
 html, body {
     margin: 0;
     padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #1F2937;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    background-color: whitesmoke;
+    margin: 1rem;
+    padding: 1rem;
+    min-height: calc(100vh - 2rem);
+    width: 100%;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+section.conversation-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+    overflow-y: scroll;
+    flex-grow: 1;
+}
+
+article.user-message, article.ai-message {
+    position: relative;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #f0f0f0;
+    max-width: 70%;
+}
+
+article.user-message::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 0px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent #075985 transparent transparent;
+}
+
+/* Triangle on the upper-left corner for the AI message */
+article.ai-message::before {
+    content: '';
+    position: absolute;
+    bottom: -10px; /* Adjusts the position to be just above the bubble */
+    left: 0px; /* Position the tail from the left edge */
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent transparent #4B5563;
+}
+
+article.user-message {
+    background-color: #075985;
+    color: white;
+    align-self: flex-end;
+}
+
+article.ai-message {
+    background-color: #4B5563;
+    color: white;
+    align-self: flex-start;
+}
+
+.chatbot-input-container {
+    display: flex;
+}
+
+input[type="text"], button{
+    background-color: transparent;
+    border: 1px solid #16202C;
+    border-radius: 15px;
+    padding: 1em;
+}
+
+input[type="text"] {
+    color: #111827;
+    width: 100%;
+    border-right: 0; 
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.submit-btn {
+    border-left: 0; 
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.send-btn-icon {
+    width: 20px;
+    display: block;
 }
