@@ -2,7 +2,8 @@ import OpenAI from "openai"
 import { getCurrentWeather, getLocation, tools } from "./tools"
 
 // Something to stop the execution while developing
-const devMode = false;
+// const devMode = false;
+const devMode = true;
 if(devMode){
     throw new Error("Just saving. I don't want to execute!"); I    
 }
@@ -28,8 +29,8 @@ async function agent(query){
         
         // for(let i=0; i<=MAX_ITERATIONS; i++){
         //     console.log(`Iteration #${i + 1}`)
-        const response = await openai.chat.completions.create({
-            model: "gpt-3.5-turbo",
+            const response = await openai.chat.completions.create({
+            model: "gpt-3.5-turbo-1106",
             messages,
             tools
         })
@@ -37,10 +38,27 @@ async function agent(query){
         // const responseText = response.choices[0].message.content
         //console.log(responseText)
         console.log(response)
+        const { finish_reason : finishReason, message } = response.choices[0]
+        const { tool_calls: toolCalls } = message
+        
+        if (finishReason === "stop") {
+            console.log(message.content)
+            console.log("AGENT ENDING")
+            return
+        } else if (finishReason === "tool_calls") {
+            for (const toolCall of toolCalls) {
+                const functionName = toolCall.function.name
+                const functionToCall = availableFunctions[functionName]
+                const functionResponse = await functionToCall()
+                console.log(functionResponse)
+            }
+        }
         
     }
-// }
+
 
 // console.log(await agent("What is the current weather in my location?"))
-await agent("What is my current location?")
+// await agent("What is my current location?")
+// await agent("How are you today?")
+ await agent("What is the current weather in Tokyo, New York City?")
 
